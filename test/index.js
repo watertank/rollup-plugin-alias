@@ -1,7 +1,7 @@
 import test from 'ava';
 import { posix as path } from 'path';
 import { rollup } from 'rollup';
-import alias from '../dist/rollup-plugin-alias';
+import alias from '../';
 import slash from 'slash';
 
 const DIRNAME = slash(__dirname.replace(/^([A-Z]:)/, ''));

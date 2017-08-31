@@ -3,7 +3,7 @@ Define aliases when bundling packages with Rollup.
 
 ***This is a fork of rollup/rollup-plugin-alias***
 
-[![Build Status](https://travis-ci.org/frostney/rollup-plugin-alias.svg?branch=master)](https://travis-ci.org/frostney/rollup-plugin-alias) [![Dependency Status](https://david-dm.org/frostney/rollup-plugin-alias.svg)](https://david-dm.org/frostney/rollup-plugin-alias) [![devDependency Status](https://david-dm.org/frostney/rollup-plugin-alias/dev-status.svg)](https://david-dm.org/frostney/rollup-plugin-alias#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/github/frostney/rollup-plugin-alias/badge.svg?branch=master)](https://coveralls.io/github/frostney/rollup-plugin-alias?branch=master)
+[![Build Status](https://travis-ci.org/watertank/rollup-plugin-alias.svg?branch=master)](https://travis-ci.org/watertank/rollup-plugin-alias) [![Dependency Status](https://david-dm.org/watertank/rollup-plugin-alias.svg)](https://david-dm.org/watertank/rollup-plugin-alias) [![devDependency Status](https://david-dm.org/watertank/rollup-plugin-alias/dev-status.svg)](https://david-dm.org/watertank/rollup-plugin-alias#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/github/watertank/rollup-plugin-alias/badge.svg?branch=master)](https://coveralls.io/github/watertank/rollup-plugin-alias?branch=master)
 
 Let's take a simple import as an example:
 
