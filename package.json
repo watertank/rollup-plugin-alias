@@ -1,6 +1,6 @@
 {
   "name": "maptalks-rollup-plugin-alias",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Resolves aliases with Rollup",
   "main": "dist/maptalks-rollup-plugin-alias.js",
   "jsnext:main": "dist/maptalks-rollup-plugin-alias.es2015.js",
