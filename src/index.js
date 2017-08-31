@@ -1,11 +1,5 @@
-import { posix as path } from 'path';
-import { platform } from 'os';
+import path from 'path';
 import fs from 'fs';
-
-import slash from 'slash';
-
-const VOLUME = /^([A-Z]:)/;
-const IS_WINDOWS = platform() === 'win32';
 
 // Helper functions
 const noop = () => null;
@@ -21,21 +15,13 @@ const matches = (key, importee) => {
   return importeeStartsWithKey && importeeHasSlashAfterKey;
 };
 const endsWith = (needle, haystack) => haystack.slice(-needle.length) === needle;
-const isFilePath = id => /^\.?\//.test(id);
+const isFilePath = id => /(^\.?\/)|(^[a-zA-Z]\:(\\|\/))/.test(id);
 const exists = uri => {
   try {
     return fs.statSync(uri).isFile();
   } catch (e) {
     return false;
   }
-};
-
-const normalizeId = id => {
-  if (IS_WINDOWS && typeof id === 'string') {
-    return slash(id.replace(VOLUME, ''));
-  }
-
-  return id;
 };
 
 export default function alias(options = {}) {
@@ -53,11 +39,8 @@ export default function alias(options = {}) {
 
   return {
     resolveId(importee, importer) {
-      const importeeId = normalizeId(importee);
-      const importerId = normalizeId(importer);
-
       // First match is supposed to be the correct one
-      const toReplace = aliasKeys.find(key => matches(key, importeeId));
+      const toReplace = aliasKeys.find(key => matches(key, importee));
 
       if (!toReplace) {
         return null;
@@ -65,10 +48,10 @@ export default function alias(options = {}) {
 
       const entry = options[toReplace];
 
-      const updatedId = normalizeId(importeeId.replace(toReplace, entry));
+      const updatedId = importee.replace(toReplace, entry);
 
       if (isFilePath(updatedId)) {
-        const directory = path.dirname(importerId);
+        const directory = path.dirname(importer);
 
         // Resolve file names
         const filePath = path.resolve(directory, updatedId);

@@ -1,5 +1,5 @@
 import test from 'ava';
-import { posix as path } from 'path';
+import path from 'path';
 import { rollup } from 'rollup';
 import alias from '../';
 import slash from 'slash';
@@ -127,6 +127,20 @@ test(t => {
 
   t.is(resolved, path.resolve(DIRNAME, './files/folder/index.js'));
 });
+
+test(t =>
+  rollup({
+    entry: './files/aliasIndex.js',
+    plugins: [alias({
+      aliasIndex: './folder',
+    })],
+  }).then(stats => {
+    // console.log(stats);
+    const length = stats.modules.length;
+    t.is(stats.modules[length - 1].id.endsWith('/files/aliasIndex.js'), true);
+    t.is(stats.modules.length, 3);
+  })
+);
 
 // Tests in Rollup
 test(t =>
