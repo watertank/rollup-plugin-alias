@@ -118,6 +118,16 @@ test(t => {
   t.is(resolved, path.resolve(DIRNAME, './files/i/am/a/local/file.js'));
 });
 
+test(t => {
+  const result = alias({
+    aliasIndex: './folder',
+  });
+
+  const resolved = result.resolveId('aliasIndex', path.resolve(DIRNAME, './files/aliasIndex.js'));
+
+  t.is(resolved, path.resolve(DIRNAME, './files/folder/index.js'));
+});
+
 // Tests in Rollup
 test(t =>
   rollup({

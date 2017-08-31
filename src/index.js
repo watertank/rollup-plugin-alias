@@ -65,7 +65,7 @@ export default function alias(options = {}) {
 
       const entry = options[toReplace];
 
-      const updatedId = importeeId.replace(toReplace, entry);
+      const updatedId = normalizeId(importeeId.replace(toReplace, entry));
 
       if (isFilePath(updatedId)) {
         const directory = path.dirname(importerId);
@@ -73,7 +73,7 @@ export default function alias(options = {}) {
         // Resolve file names
         const filePath = path.resolve(directory, updatedId);
         const match = resolve.reduce((paths, ext) => {
-          paths.push(path.join(filePath, `index.${ext}`));
+          paths.push(path.join(filePath, `index${ext}`));
           paths.push(`${filePath}${ext}`);
           return paths;
         }, []).find(exists);
