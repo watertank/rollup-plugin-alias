@@ -135,10 +135,9 @@ test(t =>
       aliasIndex: './folder',
     })],
   }).then(stats => {
-    // console.log(stats);
-    const length = stats.modules.length;
-    t.is(stats.modules[length - 1].id.endsWith('/files/aliasIndex.js'), true);
-    t.is(stats.modules.length, 3);
+    t.is(stats.modules[0].id.endsWith('/files/folder/index.js'), true);
+    t.is(stats.modules[1].id.endsWith('/files/aliasIndex.js'), true);
+    t.is(stats.modules.length, 2);
   })
 );
 
