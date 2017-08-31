@@ -2,9 +2,6 @@ import test from 'ava';
 import path from 'path';
 import { rollup } from 'rollup';
 import alias from '../';
-import slash from 'slash';
-
-const DIRNAME = slash(__dirname.replace(/^([A-Z]:)/, ''));
 
 test(t => {
   t.is(typeof alias, 'function');
@@ -64,10 +61,10 @@ test('Local aliasing', t => {
   const resolved3 = result.resolveId('foo/baz.js', '/src/importer.js');
   const resolved4 = result.resolveId('pony', '/src/highly/nested/importer.js');
 
-  t.is(resolved, '/src/bar.js');
-  t.is(resolved2, '/src/bar/baz.js');
-  t.is(resolved3, '/src/bar/baz.js');
-  t.is(resolved4, '/src/highly/nested/par/a/di/se.js');
+  t.is(resolved, path.resolve('/src/bar.js'));
+  t.is(resolved2, path.resolve('/src/bar/baz.js'));
+  t.is(resolved3, path.resolve('/src/bar/baz.js'));
+  t.is(resolved4, path.resolve('/src/highly/nested/par/a/di/se.js'));
 });
 
 test('Absolute local aliasing', t => {
@@ -81,10 +78,10 @@ test('Absolute local aliasing', t => {
   const resolved3 = result.resolveId('foo/baz.js', '/src/importer.js');
   const resolved4 = result.resolveId('pony', '/src/highly/nested/importer.js');
 
-  t.is(resolved, '/bar.js');
-  t.is(resolved2, '/bar/baz.js');
-  t.is(resolved3, '/bar/baz.js');
-  t.is(resolved4, '/par/a/di/se.js');
+  t.is(resolved, path.resolve('/bar.js'));
+  t.is(resolved2, path.resolve('/bar/baz.js'));
+  t.is(resolved3, path.resolve('/bar/baz.js'));
+  t.is(resolved4, path.resolve('/par/a/di/se.js'));
 });
 
 test('Test for the resolve property', t => {
@@ -93,9 +90,9 @@ test('Test for the resolve property', t => {
     resolve: ['.js', '.jsx'],
   });
 
-  const resolved = result.resolveId('ember', path.resolve(DIRNAME, './files/index.js'));
+  const resolved = result.resolveId('ember', './files/index.js');
 
-  t.is(resolved, path.resolve(DIRNAME, './files/folder/hipster.jsx'));
+  t.is(resolved, path.resolve('./files/folder/hipster.jsx'));
 });
 
 test(t => {
@@ -113,9 +110,9 @@ test(t => {
     resolve: './i/am/a/local/file',
   });
 
-  const resolved = result.resolveId('resolve', path.resolve(DIRNAME, './files/index.js'));
+  const resolved = result.resolveId('resolve', path.resolve('./files/index.js'));
 
-  t.is(resolved, path.resolve(DIRNAME, './files/i/am/a/local/file.js'));
+  t.is(resolved, path.resolve('./files/i/am/a/local/file.js'));
 });
 
 test(t => {
@@ -123,9 +120,9 @@ test(t => {
     aliasIndex: './folder',
   });
 
-  const resolved = result.resolveId('aliasIndex', path.resolve(DIRNAME, './files/aliasIndex.js'));
+  const resolved = result.resolveId('aliasIndex', './files/aliasIndex.js');
 
-  t.is(resolved, path.resolve(DIRNAME, './files/folder/index.js'));
+  t.is(resolved, path.resolve('./files/folder/index.js'));
 });
 
 test(t =>
@@ -135,8 +132,8 @@ test(t =>
       aliasIndex: './folder',
     })],
   }).then(stats => {
-    t.is(stats.modules[0].id.endsWith('/files/folder/index.js'), true);
-    t.is(stats.modules[1].id.endsWith('/files/aliasIndex.js'), true);
+    t.same(stats.modules[0].id, path.resolve('./files/folder/index.js'));
+    t.same(stats.modules[1].id, path.resolve('./files/aliasIndex.js'));
     t.is(stats.modules.length, 2);
   })
 );
@@ -152,11 +149,11 @@ test(t =>
       './numberFolder': './folder',
     })],
   }).then(stats => {
-    t.is(stats.modules[0].id.endsWith('/files/nonAliased.js'), true);
-    t.is(stats.modules[1].id.endsWith('/files/aliasMe.js'), true);
-    t.is(stats.modules[2].id.endsWith('/files/localAliasMe.js'), true);
-    t.is(stats.modules[3].id.endsWith('/files/folder/anotherNumber.js'), true);
-    t.is(stats.modules[4].id.endsWith('/files/index.js'), true);
+    t.same(stats.modules[0].id, path.resolve('./files/nonAliased.js'));
+    t.is(stats.modules[1].id, path.resolve('./files/aliasMe.js'));
+    t.is(stats.modules[2].id, path.resolve('./files/localAliasMe.js'));
+    t.is(stats.modules[3].id, path.resolve('./files/folder/anotherNumber.js'));
+    t.is(stats.modules[4].id, path.resolve('./files/index.js'));
     t.is(stats.modules.length, 5);
   })
 );
